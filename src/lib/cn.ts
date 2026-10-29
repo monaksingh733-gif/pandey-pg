@@ -1,0 +1,16 @@
+export type ClassValue = string | number | null | false | undefined | ClassValue[];
+
+/** Tiny clsx-style joiner — keeps the bundle free of extra dependencies. */
+export function cn(...inputs: ClassValue[]): string {
+  const out: string[] = [];
+  const walk = (v: ClassValue) => {
+    if (!v) return;
+    if (Array.isArray(v)) {
+      v.forEach(walk);
+      return;
+    }
+    out.push(String(v));
+  };
+  inputs.forEach(walk);
+  return out.join(" ");
+}
